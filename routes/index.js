@@ -3,8 +3,12 @@ const router=express.Router();
 const homeController=require('../controllers/home_controller');
 
 console.log('router is used');
-router.get('/profile', homeController.profile);
+router.get('/anotherhome', homeController.anotherhome);
 router.get('/', homeController.home);
+router.use('/users',require('./user'));
+
+// for any further routes, access from here
+// router.use('/routerName', require('./routerprofile'));
 
 
 module.exports=router;

@@ -5,6 +5,6 @@ module.exports.home= function(req,res){
     }
 
 
-module.exports.profile=function(req,res){
-    return res.end('<H1>This is profile page</H1>')
+module.exports.anotherhome=function(req,res){
+    return res.end('<H1>This is another home</H1>')
 }
