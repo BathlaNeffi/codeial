@@ -12,3 +12,10 @@ module.exports.home= function(req,res){
 module.exports.anotherhome=function(req,res){
     return res.end('<H1>This is another home</H1>')
 }
+
+
+module.exports.saveProfile=function(req,res){
+
+    return res.end('<H1>profile saved Sucessfully!!! :)</H1>')
+
+}
