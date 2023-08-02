@@ -12,6 +12,10 @@ module.exports.profile=function(req,res){
 
 // rendering the sign up page
 module.exports.signUp= function(req,res){
+
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile');
+    }
     return res.render('user_sign_up'),{
         title: 'Codeial  Sign Up'
     }
@@ -20,6 +24,9 @@ module.exports.signUp= function(req,res){
 //  rendering the sign in page
 
 module.exports.signIn= function(req,res){
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile');
+    }
     return res.render('user_sign_in'),{
         title: 'Codeial  Sign IN'
     }
@@ -30,43 +37,90 @@ module.exports.signIn= function(req,res){
 
 
 
+/*
 
-module.exports.create= function(req,res){
+    module.exports.create= function(req,res){
+
+        if(req.body.password!=req.body.confim_password){
+            console.log('password and confim password doesnot match')
+        return res.redirect('back');
+        }
+
+        User.findOne({email:req.body.email})
+
+        .catch((err)=>{
+            console.log('error in finding user in signing up'); return;
+        })
+        .then((user) =>{
+
+            if(!user){
+                User.create(req.body)
+                .catch((err) =>{
+                    console.log('Error in creating user even when user is not there');
+                    return;
+                })
+                .then((user)=>{
+                    return res.redirect('/users/sign-in');
+                })
+            } else{
+
+                console.log('user already exits');
+                return res.redirect('back');
+            }
+
+        })
+    }
+
+    */
+
+
+
+    
+module.exports.create= async (req,res) =>{
+
+try {
 
     if(req.body.password!=req.body.confim_password){
         console.log('password and confim password doesnot match')
        return res.redirect('back');
     }
 
-    User.findOne({email:req.body.email})
+    const user= await User.findOne({email:req.body.email})
+	
+	
 
-    .catch((err)=>{
-        console.log('error in finding user in signing up'); return;
-    })
-    .then((user) =>{
+    
 
         if(!user){
-            User.create(req.body)
-            .catch((err) =>{
-                console.log('Error in creating user even when user is not there');
-                return;
-            })
-            .then((user)=>{
-                return res.redirect('/users/sign-in');
-            })
-        } else{
+                    const userCreated= await User.create(req.body)
+					try{
+						if(userCreated){
+						return res.redirect('/users/sign-in');
+						}
+					}
+					catch(error) {
+						 console.log('Error in creating user even when user is not there');
+						return;
+					}
+            
+                
+            } else{
 
             console.log('user already exits');
             return res.redirect('back');
         }
-
-    })
+	}
+	    catch(error){
+        console.log('error in finding user in signing up'); return;
+    }
 }
+
 
 // get sign In data and create the session 
 
 module.exports.createSession=function(req,res){
-    //  to do latter
+    
+    return res.redirect('/')
 }
 
 
@@ -124,3 +178,12 @@ module.exports.create = async (req, res) => {
     }
 }
 */
+
+
+module.exports.destroySession =function(req,res){
+   req.logout( function(err){
+    console.log(err);
+   });
+
+    return res.redirect('/');
+}

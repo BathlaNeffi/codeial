@@ -3,10 +3,11 @@ const router=express.Router();
 const homeController=require('../controllers/home_controller');
 
 
+
 console.log('router is used');
 router.get('/anotherhome', homeController.anotherhome);
 router.get('/', homeController.home);
-router.use('/users',require('./user'));
+router.use('/users',require('./users'));
 router.post('/save', homeController.saveProfile);
 
 
