@@ -8,6 +8,7 @@ console.log('router is used');
 router.get('/anotherhome', homeController.anotherhome);
 router.get('/', homeController.home);
 router.use('/users',require('./users'));
+router.use('/posts',require('./posts'));
 router.post('/save', homeController.saveProfile);
 
 

@@ -2,7 +2,7 @@ body {
   margin: 0;
 }
 body #body-layout {
-  height: 100%;
+  height: 100vh;
 }
 
 /*# sourceMappingURL=layout.css.map */
