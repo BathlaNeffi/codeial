@@ -7,7 +7,15 @@ module.exports.home=  async (req,res) =>{
 
     try{
     
-      const UserPost= await Post.find({}).populate('user').exec();
+      const UserPost= await Post.find({})
+      .populate('user')
+      .populate( {
+        path:'comments',
+        populate:{
+            path:'user'
+        }
+      })
+      .exec();
 
       if(UserPost){
 

@@ -9,6 +9,7 @@ router.get('/anotherhome', homeController.anotherhome);
 router.get('/', homeController.home);
 router.use('/users',require('./users'));
 router.use('/posts',require('./posts'));
+router.use('/comments',require('./comments'));
 router.post('/save', homeController.saveProfile);
 
 
