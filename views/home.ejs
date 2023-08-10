@@ -20,6 +20,11 @@
                 
                     <li>
                         <p>
+                            <% if ((locals.user) && (locals.user.id == post.user.id)){ %> 
+                            <small>
+                                <a href="/posts/destroy/<%=post.id %>">X</a>
+                            </small>
+                            <%}%>
                         <h4> <%= post.content %></h4>
                         <br>
 

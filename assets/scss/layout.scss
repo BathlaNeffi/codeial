@@ -3,7 +3,11 @@ body {
     // text-align: center; 
 
     #body-layout{
-        height: 100vh;
+   
+        height: 75vh;
+        overflow: scroll;
+        // display: flex;
+        
         // color: pink;
     }
 
