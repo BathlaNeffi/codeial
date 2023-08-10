@@ -49,6 +49,16 @@
                         <div class="post-commnets-list">
                             <ul id="post-comments-<%= post._id %>">
                                 <% for (comment of post.comments) { %> 
+
+                                    <% if ((locals.user) && (locals.user.id == comment.user.id)){ %> 
+                                        <small>
+                                            <a href="/comments/destroy/<%= comment.id %>">XComment</a>
+                                        </small>
+                                        <%} else if ((locals.user) && ( locals.user.id == post.user.id)){ %> 
+                                            <small>
+                                                <a href="/comments/destroy/<%= comment.id %>">XPost</a>
+                                            </small>
+                                            <%}%>
                                     <h3>
                                          <%= comment.content %>
                                          <br>
