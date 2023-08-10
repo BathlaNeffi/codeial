@@ -1,4 +1,6 @@
 const Post=require('../models/post');
+const User=require('../models/user');
+
 module.exports.home=  async (req,res) =>{
 
     // return res.send('<h2>Hello welcome to home via router</h1>');
@@ -19,10 +21,17 @@ module.exports.home=  async (req,res) =>{
 
       if(UserPost){
 
-        return res.render('home',{
-            title:"Codeial | Home",
-            posts:UserPost
-        })
+       const users= await User.find({})
+         if(users){
+            return res.render('home',{
+                title:"Codeial | Home",
+                posts:UserPost,
+                all_users: users
+            })
+
+        };
+
+        
     }
 }
     catch(err){

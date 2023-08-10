@@ -1,13 +1,38 @@
 const User=require('../models/user');
 
-module.exports.profile=function(req,res){
+module.exports.profile=async  (req,res) =>{
+    try{
+    const user= await User.findById(req.params.id);
 
     return res.render('user_profile',{
-        title:'profile'
+        title:'User profile',
+        profile_user: user
 
-    })
+    });
+
 
     // return res.end('<h1>This is users profile </h1>');
+    }
+    catch(err){
+        console.log(err);
+    }
+
+}
+
+module.exports.update= async (req,res)=>{
+    try{
+    if(req.user.id == req.params.id){
+
+       const user= await User.findByIdAndUpdate(req.params.id, {name: req.body.name ,email: req.body.email});
+       return res.redirect('back');
+        } else{
+            return res.satus(401).send('unauthorized');
+        }
+
+    }
+    catch(err){
+        console.log(err);
+    }
 }
 
 // rendering the sign up page
