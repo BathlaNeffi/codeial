@@ -17,64 +17,9 @@
         <div id="post-list-container">
             <ul>
                 <% for(post of posts) { %>
+                    <%- include('_post');  -%>
                 
-                    <li>
-                        <p>
-                            <% if ((locals.user) && (locals.user.id == post.user.id)){ %> 
-                            <small>
-                                <a href="/posts/destroy/<%=post.id %>">X</a>
-                            </small>
-                            <%}%>
-                        <h4> <%= post.content %></h4>
-                        <br>
 
-                        <small>
-                            <%= post.user.name %>
-                        </small>
-                        </p>
-                    </li>
-                    <div class="post-comments">
-                        <% if(locals.user) { %>
-
-                            <form action="/comments/create" method="post">
-                                <input type="text" name="content" placeholder="Type here to add comment..." required>
-                                <input type="hidden" name="post" value="<%= post._id %>">
-                                <input type="submit" value="Add Comment">
-
-
-                            </form>
-
-                        <% } %>
-
-                        <div class="post-commnets-list">
-                            <ul id="post-comments-<%= post._id %>">
-                                <% for (comment of post.comments) { %> 
-
-                                    <% if ((locals.user) && (locals.user.id == comment.user.id)){ %> 
-                                        <small>
-                                            <a href="/comments/destroy/<%= comment.id %>">XComment</a>
-                                        </small>
-                                        <%} else if ((locals.user) && ( locals.user.id == post.user.id)){ %> 
-                                            <small>
-                                                <a href="/comments/destroy/<%= comment.id %>">XPost</a>
-                                            </small>
-                                            <%}%>
-                                    <h3>
-                                         <%= comment.content %>
-                                         <br>
-                                         <small>
-                                            <%= comment.user.email %>
-                                         </small>
-                                        </h3>
-                                    
-                                    <%}%>
-
-                            </ul>
-                        
-
-                        </div>
-
-                    </div>
                 
                 <%}%>
             </ul>
