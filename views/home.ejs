@@ -30,6 +30,7 @@
         </div>
 
     </section>
+    <% if(locals.user) {%> 
     <section id="user-friends">
         <h4>Friends</h4>
         <% for( u of all_users){%>
@@ -38,6 +39,7 @@
             </p>
 
         <%}%>
+        <% } %>
 
     </section>
 </div>

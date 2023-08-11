@@ -24,9 +24,11 @@ module.exports.update= async (req,res)=>{
     if(req.user.id == req.params.id){
 
        const user= await User.findByIdAndUpdate(req.params.id, {name: req.body.name ,email: req.body.email});
+        req.flash('success', "Updated!!");
        return res.redirect('back');
         } else{
-            return res.satus(401).send('unauthorized');
+            req.flash('error','Unauthorized');
+            return res.status(401).send('unauthorized');
         }
 
     }
@@ -106,6 +108,7 @@ module.exports.create= async (req,res) =>{
 try {
 
     if(req.body.password!=req.body.confim_password){
+        req.flash('error', 'password and confim password doesnot match');
         console.log('password and confim password doesnot match')
        return res.redirect('back');
     }
@@ -120,10 +123,12 @@ try {
                     const userCreated= await User.create(req.body)
 					try{
 						if(userCreated){
+                        req.flash('success','You have signed up, login to continue!!'); 
 						return res.redirect('/users/sign-in');
 						}
 					}
 					catch(error) {
+                        req.flash('error', error);
 						 console.log('Error in creating user even when user is not there');
 						return;
 					}
@@ -132,10 +137,12 @@ try {
             } else{
 
             console.log('user already exits');
+            req.flash('error', 'User Already exists please Sign-In');
             return res.redirect('back');
         }
 	}
 	    catch(error){
+            eq.flash('error', error);
         console.log('error in finding user in signing up'); return;
     }
 }
@@ -144,6 +151,7 @@ try {
 // get sign In data and create the session 
 
 module.exports.createSession=function(req,res){
+    req.flash('success','Logged in Sucessfully');
     
     return res.redirect('/')
 }
@@ -205,10 +213,16 @@ module.exports.create = async (req, res) => {
 */
 
 
-module.exports.destroySession =function(req,res){
-   req.logout( function(err){
-    console.log(err);
-   });
-
-    return res.redirect('/');
+module.exports.destroySession = async function(req,res){
+    
+    // req.flash('success','Logged in Sucessfully');
+    
+    await req.logout( (err)=>{
+        
+        if(err){
+            console.log(err);}
+        req.flash('success','You have Logged out!!');
+        return res.redirect('/');
+    })
+    
 }

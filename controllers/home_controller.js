@@ -15,12 +15,9 @@ module.exports.home=  async (req,res) =>{
         path:'comments',
         populate:{
             path:'user'
-        }
-      })
-      .exec();
+        }});
 
-      if(UserPost){
-
+     
        const users= await User.find({})
          if(users){
             return res.render('home',{
@@ -32,10 +29,11 @@ module.exports.home=  async (req,res) =>{
         };
 
         
-    }
+    
 }
     catch(err){
         console.log(err);
+        return
 
     }
 

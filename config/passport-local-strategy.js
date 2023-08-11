@@ -4,15 +4,18 @@ const user=require('../models/user');
 const User = require('../models/user');
 
 passport.use(new LocalStrategy({
-    usernameField:'email'
+    usernameField:'email',
+    passReqToCallback: true
     },
-     async function(email, password, done){
+     async function(req,email, password, done){
         try{
         // find the user and establish the identity
         const user=await User.findOne({email: email}) 
             
                if(!user || user.password != password){
-                console.log('Invalid Username/Password');
+
+                req.flash('error','Invalid Username/Password');
+                // console.log('Invalid Username/Password');
                 return done(null,false);
                }
                
@@ -57,7 +60,7 @@ passport.use(new LocalStrategy({
 
 
     //  check if the user is authenticated
-
+//
      passport.checkAuthentication=function(req,res,next){
         // if the user is signed in then pass the request to the next function(controller's action)
         if(req.isAuthenticated()){
