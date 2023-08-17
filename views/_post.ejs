@@ -1,8 +1,8 @@
-<li>
+<li id="post-<%= post._id %>">
     <p>
         <% if ((locals.user) && (locals.user.id == post.user.id)){ %> 
         <small>
-            <a href="/posts/destroy/<%=post.id %>">X</a>
+            <a class="delete-post-button"  href="/posts/destroy/<%=post.id %>">X</a>
         </small>
         <%}%>
     <h4> <%= post.content %></h4>
@@ -13,30 +13,27 @@
     </small>
     </p>
 
-<div class="post-comments">
-    <% if(locals.user) { %>
+    <div class="post-comments">
+        <% if(locals.user) { %>
+            <!-- lets give an id to the new comment form we'll also need to make the same chnages in home_posts.js  where we'are adding a post to the page -->
 
-        <form action="/comments/create" method="post">
-            <input type="text" name="content" placeholder="Type here to add comment..." required>
-            <input type="hidden" name="post" value="<%= post._id %>">
-            <input type="submit" value="Add Comment">
+            <form id="post-<%= post._id %>-comments-form" action="/comments/create" method="post">
+                <input type="text" name="content" placeholder="Type here to add comment...!" required>
+                <input type="hidden" name="post" value="<%= post._id %>">
+                <input type="submit" value="Add Comment">
 
 
-        </form>
+            </form>
 
-    <% } %>
+        <% } %>
 
-    <div class="post-commnets-list">
-        <ul id="post-comments-<%= post._id %>">
-            <% for (comment of post.comments) { %> 
-                <%- include('_comment');-%>
-
-                <%}%>
-
-        </ul>
-    
+        <div class="post-commnets-list">
+            <ul id="post-comments-<%= post._id %>">
+                <% for (comment of post.comments) { %> 
+                    <%- include('_comment');-%>
+                    <%}%>
+            </ul>
+        </div>
 
     </div>
-
-</div>
 </li>

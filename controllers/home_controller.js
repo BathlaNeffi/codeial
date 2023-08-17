@@ -10,6 +10,7 @@ module.exports.home=  async (req,res) =>{
     try{
     
       const UserPost= await Post.find({})
+      .sort('-createdAt')
       .populate('user')
       .populate( {
         path:'comments',
