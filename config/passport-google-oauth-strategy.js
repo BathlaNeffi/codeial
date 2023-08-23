@@ -16,11 +16,11 @@ passport.use( new googleStrategy({
             console.log(profile);
             if(user){
                 // if found set this user as req.user
-                console.log(accessToken,'token');
+                // console.log(accessToken,'token');
                 return done(null,user);
             }else{
                 //  if not found , create the usrr and set it as req.user
-                console.log ('***************here***************');
+                // console.log ('***************here***************');
               let createUser= await  User.create({
                 name: profile.displayName,
                 email: profile.emails[0].value,
