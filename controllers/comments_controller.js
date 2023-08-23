@@ -1,5 +1,6 @@
 const Comment=require('../models/comment');
 const Post=require('../models/post');
+const commentsMailer= require('../mailers/comments_mailer');
 
 
 
@@ -15,15 +16,20 @@ module.exports.create= async (req,res)=>{
             
                 post.comments.push(comment);
                 post.save();
+
+                commnet = await comment.populate('user', 'name email');
+                // comment = await comment
+                //         .populate({
+                //             path: "user",
+                //             populate: {
+                //             path: "name",
+                //             }
+                //         });
+
+                        commentsMailer.newCommnet(comment);
                 if(req.xhr){
                     //  Simillar fo comments to fetch the user's id!!
-                    comment = await comment
-                        .populate({
-                            path: "user",
-                            populate: {
-                            path: "name",
-                            }
-                        });
+                    
 
                     return res.status(200).json({
                         data: {
