@@ -1,4 +1,4 @@
-const mongoose=require('mongoose');
+const mongoose = require('mongoose');
 
 const commentSchema= new mongoose.Schema({
     content:{
@@ -15,7 +15,13 @@ const commentSchema= new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref: 'Post'
 
-    }
+    },
+    likes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Like'
+        }
+    ]
 },{
     timestamps: true
 });

@@ -1,5 +1,6 @@
 const Post=require('../models/post');
 const Comment=require('../models/comment');
+const Like = require('../models/like');
 
 module.exports.create= async (req,res) =>{
 
@@ -12,8 +13,9 @@ module.exports.create= async (req,res) =>{
     if(req.xhr){
          //  if we want to populate just the name of the user (we'll not want to send the passwpord in that API ), this is how we do it!
     
+         post = await post.populate('user', 'name');
 
-
+        /*
         post = await post
         .populate({
             path: "user",
@@ -21,6 +23,7 @@ module.exports.create= async (req,res) =>{
                path: "name",
             }
          })
+         */
 
         return res.status(200).json({
             data:{
@@ -54,6 +57,11 @@ module.exports.destroy= async (req,res)=>{
         let post= await Post.findById(req.params.id)
         // .id means converting  object id to string
          if(post.user == req.user.id){
+        
+            // Change :: delete the associated likes for the post and all its comments likes too
+            await Like.deleteMany({likeable: post , onModel: 'Post'}); // deleting likes on this post
+            await Like.deleteMany({_id: {$in: post.comments}});   // deleting likes on the comments of this post
+
         
             post.deleteOne();
 
