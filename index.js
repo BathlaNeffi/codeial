@@ -1,6 +1,9 @@
 const express=require(`express`);
 const cookieParser=require('cookie-parser');
 const port ='8000';
+const env = require('./config/environmnet');
+// require('dotenv').config();
+// console.log(process.env.ASSET_PATH)
 
 const app=express();
 const expresLayouts=require('express-ejs-layouts');
@@ -57,7 +60,7 @@ app.use(cookieParser());
 
 
 
-app.use(express.static('./assets'));
+app.use(express.static(env.asset_path));
 // extract style and scripts for sub pages into the layouts
 app.set('layout extractStyles', true);
 app.set('layout extractScripts', true);
@@ -79,7 +82,7 @@ app.use(session({
 
     // To do chnage the secret before deployment in production mode
 
-    secret: 'blahsomething',
+    secret: env.session_cookie_key,
     saveUninitialized: false,
     resave: false,
     cookie: {
