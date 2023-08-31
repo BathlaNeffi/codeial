@@ -2,6 +2,7 @@ const express=require(`express`);
 const cookieParser=require('cookie-parser');
 const port ='8000';
 const env = require('./config/environmnet');
+const logger = require('morgan');
 // require('dotenv').config();
 // console.log(process.env.ASSET_PATH)
 
@@ -56,6 +57,9 @@ app.use('/uploads', express.static(__dirname +'/uploads'));
 
 
 app.use(cookieParser());
+
+
+app.use(logger(env.morgan.mode, env.morgan.options) )
 
 
 

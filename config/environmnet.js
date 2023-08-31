@@ -17,6 +17,18 @@ console.log('**************************************************')
 require('dotenv').config();
 // console.log(process.env.ASSET_PATH);
 // console.log(process.env)
+const fs= require('fs');
+const rfs = require('rotating-file-stream');
+const path = require ('path');
+
+const logDirectory= path.join(__dirname,'../production_logs')
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
+const accessLogStream = rfs.createStream('access.log',{
+  path : logDirectory,
+  size: "10M", // rotate every 10 MegaBytes written
+  interval: "1d", // rotate daily
+  compress: "gzip" // compress rotated files
+})
 
 
 const development = {
@@ -39,6 +51,10 @@ const development = {
       google_client_secret : "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",
       google_call_back_url : "http://localhost:8000/users/auth/google/callback",
       jwt_secret : 'codeial',
+      morgan :{
+        mode: 'dev',
+        options : {stream : accessLogStream}
+      }
 
 }
 // console.log('**************************************************')
@@ -67,6 +83,10 @@ const production ={
       google_client_secret : process.env.CODEIAL_GOOGLE_CLIENT_SECRET,
       google_call_back_url : process.env.CODEIAL_GOOGLE_CALLBACK_URL,
       jwt_secret : process.env.JWT_SECRET,
+      morgan :{
+        mode: 'combined',
+        options : {stream : accessLogStream}
+      }
 
 
 
